@@ -1,0 +1,1 @@
+This syntax folder is created and the syntax type psudo code will remain here.
