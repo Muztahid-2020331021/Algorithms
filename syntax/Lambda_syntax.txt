@@ -1,0 +1,17 @@
+Normal Lambda:
+
+[capture_list](parameters) -> return_type { function_body };
+
+
+Recursive Lambda:
+
+std::function<ReturnType(ParamType1, ParamType2, ...)> lambda_name = 
+    [&](ParamType1 param1, ParamType2 param2, ...) -> ReturnType {
+        // Base case
+        if (/* base condition */) 
+            return /* base result */;
+        
+        // Recursive call
+        return /* some computation using lambda_name(args) */;
+    };
+
