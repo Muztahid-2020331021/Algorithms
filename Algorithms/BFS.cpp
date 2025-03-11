@@ -1,98 +1,64 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-const int N=50;
-vector<int> g[N];
-int vis[N];
-int par[N];
 
-// bool bfs(int source, int dest)
-// {
-//     queue<int> q;
-//     q.push(source);
-//     vis[source] = 1;
-//     par[source] = -1;
-//     while (!q.empty())
-//     {
-//         int cur = q.front();
-//         q.pop();
-
-//         for (auto child : g[cur])
-//         {
-//             if(vis[child]) continue;
-//             q.push(child);
-//             vis[child] = 1;
-//             par[child] = cur;
-//             if (child == dest)
-//                 return true;
-//         }
-//     }
-//     return false;
-// }
-
-void bfs(int source, int dest){
+vector<int> bfs(int n, vector<vector<int>> &adj, int s, int d) {
+    vector<int> parent(n + 1, -1);
+    vector<bool> visited(n + 1, false);
     queue<int> q;
-    q.push(source);
-    vis[source]=1;
-    par[source]=0;
-    while(!q.empty()){
-        int cur_v=q.front();
+    
+    q.push(s);
+    visited[s] = true;
+
+    while (!q.empty()) {
+        int u = q.front();
         q.pop();
-        
-        for(auto child: g[cur_v]){
-            if(!vis[child]){
-                q.push(child);
-                vis[child]=1;
-                par[child]=cur_v;
-                if(child==dest) return;
+
+        if (u == d) break; // Stop early if destination is reached
+
+        for (int v : adj[u]) {
+            if (!visited[v]) {
+                visited[v] = true;
+                parent[v] = u;
+                q.push(v);
             }
         }
     }
-    cout<<"There is no destination!!\n";
-    
+
+    // Reconstruct the path
+    vector<int> path;
+    if (!visited[d]) return {}; // No path found
+
+    for (int v = d; v != -1; v = parent[v]) {
+        path.push_back(v);
+    }
+    reverse(path.begin(), path.end());
+    return path;
 }
 
-int main(){
-    int n;
-    cin>>n;
-    int i;
-    for(i=0;i<13;i++){
-        int x,y;
-        cin>>x>>y;
-        g[x].push_back(y);
-        g[y].push_back(x);
-    }
-    
-    bfs(1,15);
-    i=10;
-    stack<int> ans;
-    while (i!=0)
-    {
-        ans.push(i);
-        i=par[i];
-    }
-    while(!ans.empty()){
-        cout<<ans.top()<<" ";
-        ans.pop();
-    }
-    cout<<endl;
-    
-    
+int main() {
+    int n, e, s, d;
+    cin >> n >> e >> s >> d;
 
+    vector<vector<int>> adj(n + 1);
+
+    for (int i = 0; i < e; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u); // Assuming undirected graph
+    }
+
+    vector<int> path = bfs(n, adj, s, d);
+
+    if (path.empty()) {
+        cout << "No path found" << endl;
+    } else {
+        cout << "Shortest path: ";
+        for (int node : path) {
+            cout << node << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
 }
-/*
-13
-1 2
-1 3
-1 13
-1 10
-2 5
-5 6
-5 7
-5 8
-8 12
-3 4
-4 9
-4 10
-10 11
-9 11
-*/

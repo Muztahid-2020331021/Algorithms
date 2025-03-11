@@ -9,10 +9,9 @@ bool vis[N];
 void dfs(int vertex){
     //take action on vertex after entering the vertex
     if(vis[vertex]) return;
-    cout<<vertex<<endl;
+    cout<<vertex<< " ";
     vis[vertex] = true;
     for(int child : g[vertex]){
-        cout<<"par = "<<vertex<<", child = "<<child<<endl;
         //if(vis[child]) continue;
         //take action on child before entering the child node
         dfs(child);
@@ -31,6 +30,7 @@ int main(){
         g[v2].push_back(v1);
     }
     dfs(1);
+    cout<<endl;
 }
 /* 
 6 9
