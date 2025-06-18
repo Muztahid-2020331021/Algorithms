@@ -1,74 +1,59 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
-void merge(vector<int> &v, int mid, int lo, int hi)
-{
-    int i, j, k;
-    vector<int> v1(v.size());
-    i = lo;
-    j = mid + 1;
-    k = lo;
-    while (i <= mid && j <= hi)
-    {
-        if (v[i] <= v[j])
-        {
-            v1[k] = v[i];
-            i++;
-            k++;
-        }
-        else
-        {
-            v1[k] = v[j];
-            j++;
-            k++;
-        }
-    }
+int arr[100005], tmp[100005];
 
-    while (i <= mid)
-    {
-        v1[k] = v[i];
-        i++;
-        k++;
-    }
-    while (j <= hi)
-    {
-        v1[k] = v[j];
+void merge(int l, int r){
+    int mid = (l + r) / 2;
+    int i1 = l, i2 = mid + 1, j = l;
+    while(i1 <= mid and i2 <= r){
+        if(arr[i1] < arr[i2]){
+            tmp[j] = arr[i1];
+            i1++;
+        }
+        else{
+            tmp[j] = arr[i2];
+            i2++;
+        }
         j++;
-        k++;
     }
-    for (i = lo; i <= hi; i++)
-    {
-        v[i] = v1[i];
+
+    while(i1 <= mid){
+        tmp[j] = arr[i1];
+        j++, i1++; 
+    }
+
+    while(i2 <= r){
+        tmp[j] = arr[i2];
+        j++, i2++;
+    }
+
+    for(int i = l; i <= r; i++){
+        arr[i] = tmp[i];
     }
 }
 
-void merge_sort(vector<int> &v, int lo, int hi)
-{
-    int mid;
-    if (lo < hi)
-    {
-        mid = (hi + lo) / 2;
-        merge_sort(v, lo, mid);
-        merge_sort(v, mid + 1, hi);
-        merge(v, mid, lo, hi);
-    }
+void mergesort(int l, int r){
+    if(l == r) return;
+
+    //divide
+    int mid = (l + r) / 2;
+    mergesort(l, mid);
+    mergesort(mid + 1, r);
+
+    //conquer
+    merge(l, r);
 }
 
-int main()
-{
+int main(){
     int n;
-    cin >> n;
-    int i;
-    vector<int> v;
-    for (i = 0; i < n; i++)
-    {
-        int x;
-        cin >> x;
-        v.push_back(x);
+    cin>> n;
+    for(int i = 0; i < n; i++){
+        cin>> arr[i];
     }
-    merge_sort(v, 0, n - 1);
-    for (auto bal : v)
-    {
-        cout << bal << " ";
+    mergesort(0, n - 1);
+    for(int i = 0; i < n; i++){
+        cout<< arr[i] << " ";
     }
+    cout<< endl;
 }
