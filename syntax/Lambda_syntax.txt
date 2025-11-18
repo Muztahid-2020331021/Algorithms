@@ -1,6 +1,6 @@
 Normal Lambda:
 
-[capture_list](parameters) -> return_type { function_body };
+auto lambda_name = [&](parameters) -> return_type { function_body };
 
 
 Recursive Lambda:
