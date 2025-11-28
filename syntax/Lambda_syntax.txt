@@ -5,13 +5,20 @@ auto lambda_name = [&](parameters) -> return_type { function_body };
 
 Recursive Lambda:
 
-std::function<ReturnType(ParamType1, ParamType2, ...)> lambda_name = 
-    [&](ParamType1 param1, ParamType2 param2, ...) -> ReturnType {
-        // Base case
-        if (/* base condition */) 
-            return /* base result */;
-        
-        // Recursive call
-        return /* some computation using lambda_name(args) */;
+#include <iostream>
+
+int main() {
+    // 1. Define the lambda with 'auto&& self' as the first argument
+    auto factorial = [&](auto&& self, int n) -> int {
+        if (n <= 1) return 1;
+        // 2. Call 'self' recursively, passing 'self' again
+        return n * self(self, n - 1);
     };
+
+    // 3. Invoke by passing the lambda to itself
+    int result = factorial(factorial, 5);
+    
+    std::cout << "Factorial of 5 is: " << result << std::endl;
+    return 0;
+}
 
