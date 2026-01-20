@@ -9,7 +9,8 @@ Recursive Lambda:
 
 int main() {
     // 1. Define the lambda with 'auto&& self' as the first argument
-    auto factorial = [&](auto&& self, int n) -> int { // Return type must be mentioned explicitly. In case of void function         if (n <= 1) return 1;                            // return type would be 'void'.
+    auto factorial = [&](auto&& self, int n) -> int { // Return type must be mentioned explicitly. In case of void function return type would be 'void'.         
+        if (n <= 1) return 1;                           
         // 2. Call 'self' recursively, passing 'self' again
         return n * self(self, n - 1);
     };    
