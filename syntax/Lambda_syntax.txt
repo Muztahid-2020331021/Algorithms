@@ -1,3 +1,5 @@
+First Rule: If you want to use lambda, you must use vector. Don't use array.
+
 Normal Lambda:
 
 auto lambda_name = [&](parameters) -> return_type { function_body };
